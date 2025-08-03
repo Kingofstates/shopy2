@@ -5,234 +5,86 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ShopTee - Oversized T-Shirts</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f9f9f9;
+    body {font-family: Arial, sans-serif; margin:0; padding:0; background: #f9f9f9;}
+    .banner {background:#1a1a1a;color:#ffe600; display:flex; align-items:center; gap:24px; padding:16px 18px; font-weight:bold; min-height:120px;}
+    .banner-img { height:100px;width:300px;object-fit:contain;border-radius:10px;margin-left:20px;box-shadow:0 2px 10px #5553;background:#fff;}
+    .banner-message {flex:1; text-align:left; font-size:1.15em;}
+    header {background:#fff;padding:0;border-bottom:1px solid #e1e1e1;}
+    .header-inner {display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:16px 4vw 16px 4vw;flex-wrap:wrap;position:relative;}
+    .logo-box {display:flex;align-items:center;}
+    .logo-img {width:50px;height:50px;object-fit:contain;margin-right:14px;border-radius:8px;background:#ffe60022;box-shadow:0 1px 8px #4442;}
+    h1 {font-size:1.75em;margin:0 12px 0 0;color:#222;letter-spacing:1px;}
+    nav {flex:1;display:flex;align-items:center;gap:18px;margin-left:32px;}
+    nav a {margin:0 10px;text-decoration:none;color:#222;font-weight:500;transition:color 0.14s;font-size:1em;}
+    nav a:hover {color:#ffe600;}
+    .search-bar {margin-left:auto;margin-right:24px;}
+    .search-input {padding:7px 14px;border:1.2px solid #ccc;border-radius:5px 0 0 5px;font-size:1em;outline:none;}
+    .search-btn {background:#ffe600;border:none;padding:7px 16px;border-radius:0 5px 5px 0;font-weight:600;font-size:1em;cursor:pointer;transition:background 0.13s;}
+    .search-btn:hover {background:#fff100;}
+    .header-actions {display:flex;gap:12px;align-items:center;}
+    .icon-btn {background:none;border:none;cursor:pointer;padding:6px 8px;vertical-align:middle;position:relative;}
+    .icon-btn:focus {outline: none;}
+    .header-icon {width:34px;height:34px;border-radius:50%;background:#f3f3f3;border:1px solid #eee;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 7px #4441;font-size:1.7em;color:#646464;transition:background 0.14s;}
+    .icon-btn:hover .header-icon,.icon-btn:focus .header-icon{background:#ffe60022;color:#222;}
+    .popup-box {display:none; position:absolute; top:44px; right:0; width:260px; background:#fff; border-radius:10px; box-shadow:0 4px 25px #0002, 0 1.5px 10px #6661; border:1px solid #eee; padding:20px 14px 18px 14px; animation: popupFadeIn 0.19s; z-index:222;}
+    @keyframes popupFadeIn { from { opacity:0; transform: translateY(-15%);} to {opacity:1; transform: translateY(0);}}
+    .popup-box.active {display: block;}
+    .popup-box h3 {font-size:1.1em; margin:0 0 10px 0; color:#333; letter-spacing:1px;}
+    .popup-box button, .popup-box .popup-btn {width:90%; background:#ffe600; color:#111; border:none; padding:10px 0; border-radius:5px; font-size:1em; font-weight:600; margin:7px 0 10px 0; cursor:pointer; transition:background 0.13s; display:block; margin-left:auto; margin-right:auto;}
+    .popup-box button:hover, .popup-box .popup-btn:hover {background:#fff100;}
+    .popup-box ul.cart-list {list-style:none;padding:0;margin:7px 0;}
+    .popup-box ul.cart-list li {font-size:0.97em;margin-bottom:2px;display:flex;justify-content:space-between;align-items:center;gap:3px;}
+    .cart-item-name{flex:1 1 60%;text-align:left;}
+    .cart-item-qty-controls{display:flex;align-items:center;}
+    .qty-btn{border:none;background:#eee;color:#222;padding:1px 7px;border-radius:50%;font-weight:bold;font-size:1em;cursor:pointer;margin:0 2px;transition:background 0.12s;}
+    .qty-btn:hover{background:#ffe600;}
+    .cart-item-qty{color:#222;background:#e3e3e3;border-radius:7px;padding:1px 8px;}
+    .cart-remove-btn{font-size:0.81em;color:#d72631;background:none;border:none;cursor:pointer;}
+    .popup-box .sum-row{font-size:1em;display:flex;justify-content:space-between;margin:8px 0 0 0;}
+    .account-form-wrap{margin-top:12px;padding-top:10px;border-top:1px solid #eee;}
+    .account-form label{font-size:0.95em;color:#575757;margin-bottom:4px;display:block;}
+    .account-form input{width:94%;padding:7px 8px;border:1px solid #ccc;border-radius:4px;margin-bottom:7px;font-size:1em;margin-top:1px;}
+    .form-actions{display:flex;gap:7px;justify-content:flex-end;}
+    .form-actions button{width:auto;padding:7px 14px;font-size:0.98em;}
+    .user-greeting{text-align:left;color:#238426;font-weight:700;margin:0 0 12px 0;font-size:1em;}
+    main {padding:24px 0;}
+    .products-grid {display:grid; grid-template-columns:repeat(4, 1fr); gap:28px; max-width:1200px; margin:0 auto; width:95%;}
+    .product-card {background:#fff; border:1px solid #ececec; border-radius:10px; padding:18px; text-align:center; box-shadow:0 2px 8px #eee; transition:transform 0.15s, box-shadow 0.15s; display:flex; flex-direction:column; align-items:center;}
+    .product-card:hover {transform:translateY(-5px) scale(1.03); box-shadow:0 6px 18px #eaeaea;}
+    .product-card img {width:100%;border-radius:7px;margin-bottom:10px;max-width:160px;aspect-ratio:1/1;object-fit:cover;}
+    .price .old{text-decoration:line-through;color:#888;font-size:1em;margin-right:5px;}
+    .price .new{color:#d72631;font-size:1.2em;font-weight:bold;}
+    .add-cart-btn{background:#ffe600;border:none;padding:10px 28px;border-radius:4px;cursor:pointer;margin-top:12px;font-size:1em;font-weight:600;transition:background 0.12s;}
+    .add-cart-btn:hover{background:#fff100;}
+    .no-results{text-align:center;font-size:1.2em;color:#d72631;margin:40px 0;font-weight:600;letter-spacing:0.8px;}
+    footer {background:#1a1a1a;color:#fff;text-align:center;padding:20px 8px;margin-top:40px;}
+    @media (max-width: 1100px) {.products-grid{grid-template-columns:repeat(3,1fr);}}
+    @media (max-width: 700px) {.products-grid{grid-template-columns:repeat(2,1fr);gap:16px;} .product-card{padding:10px;max-width:unset;} .banner-message{font-size:.98em;} .banner-img{width:40vw;max-width:180px;height:60px;}}
+    @media (max-width: 540px) {.banner-img{width:32vw;max-width:120px;height:45px;}}
+    @media (max-width: 420px) {.products-grid{grid-template-columns:repeat(2,1fr);}}
+
+    /* ---- MODAL for order form ---- */
+    .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100vw; height: 100vh; overflow: auto; background: rgba(0,0,0,.34);}
+    .modal-content {
+      background: #fff; margin: 56px auto; border-radius: 12px; padding: 26px 21px 26px 21px; max-width: 350px;
+      min-width: 260px; box-shadow: 0 10px 32px #0002;
+      animation:popupFadeIn .2s;
+      position:relative;
     }
-    .banner {
-      background: #1a1a1a;
-      color: #ffe600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 18px;
-      padding: 12px 12px 12px 0;
-      font-weight: bold;
-      min-height: 60px;
+    .modal-content h3 {margin-top: 0;}
+    .modal-actions {display: flex; justify-content: flex-end; gap: 10px; margin-top: 14px;}
+    .modal .close-modal {
+      position: absolute; right: 16px; top: 11px; background: none; border: none; color: #555; font-size: 1.4em; cursor: pointer;
     }
-    .banner-img {
-      height: 45px;
-      width: 45px;
-      object-fit: contain;
-      border-radius: 6px;
-      margin-left: 14px;
-      box-shadow: 0 1px 6px #5552;
-      background: #fff;
-    }
-    .banner-message {
-      flex: 1;
-      text-align: left;
-    }
-    header {
-      background: #fff;
-      padding: 0px 0 0 0;
-      border-bottom: 1px solid #e1e1e1;
-    }
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 16px 4vw 16px 4vw;
-      flex-wrap: wrap;
-    }
-    .logo-box {
-      display: flex;
-      align-items: center;
-    }
-    .logo-img {
-      width: 50px;
-      height: 50px;
-      object-fit: contain;
-      margin-right: 14px;
-      border-radius: 8px;
-      background: #ffe60022;
-      box-shadow: 0 1px 8px #4442;
-    }
-    h1 {
-      font-size: 1.75em;
-      margin: 0 12px 0 0;
-      color: #222;
-      letter-spacing: 1px;
-    }
-    nav {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      margin-left: 32px;
-    }
-    nav a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: #222;
-      font-weight: 500;
-      transition: color 0.14s;
-      font-size: 1em;
-    }
-    nav a:hover {
-      color: #ffe600;
-    }
-    .search-bar {
-      margin-left: auto;
-    }
-    .search-input {
-      padding: 7px 14px;
-      border: 1.2px solid #ccc;
-      border-radius: 5px 0 0 5px;
-      font-size: 1em;
-      outline: none;
-    }
-    .search-btn {
-      background: #ffe600;
-      border: none;
-      padding: 7px 16px;
-      border-radius: 0 5px 5px 0;
-      font-weight: 600;
-      font-size: 1em;
-      cursor: pointer;
-      transition: background 0.13s;
-    }
-    .search-btn:hover {
-      background: #fff100;
-    }
-    main {
-      padding: 24px 0;
-    }
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 28px;
-      max-width: 1200px;
-      margin: 0 auto;
-      width: 95%;
-    }
-    .product-card {
-      background: #fff;
-      border: 1px solid #ececec;
-      border-radius: 10px;
-      padding: 18px;
-      text-align: center;
-      box-shadow: 0 2px 8px #eee;
-      transition: transform 0.15s, box-shadow 0.15s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .product-card:hover {
-      transform: translateY(-5px) scale(1.03);
-      box-shadow: 0 6px 18px #eaeaea;
-    }
-    .product-card img {
-      width: 100%;
-      border-radius: 7px;
-      margin-bottom: 10px;
-      max-width: 160px;
-      aspect-ratio: 1/1;
-      object-fit: cover;
-    }
-    .price .old {
-      text-decoration: line-through;
-      color: #888;
-      font-size: 1em;
-      margin-right: 5px;
-    }
-    .price .new {
-      color: #d72631;
-      font-size: 1.2em;
-      font-weight: bold;
-    }
-    button {
-      background: #ffe600;
-      border: none;
-      padding: 10px 28px;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-top: 12px;
-      font-size: 1em;
-      font-weight: 600;
-      transition: background 0.12s;
-    }
-    button:hover {
-      background: #fff100;
-    }
-    .no-results {
-      text-align: center;
-      font-size: 1.2em;
-      color: #d72631;
-      margin: 40px 0;
-      font-weight: 600;
-      letter-spacing: 0.8px;
-    }
-    footer {
-      background: #1a1a1a;
-      color: #fff;
-      text-align: center;
-      padding: 20px 8px;
-      margin-top: 40px;
-    }
-    /* Responsive breakpoints */
-    @media (max-width: 1020px) {
-      .products-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-    @media (max-width: 900px) {
-      .header-inner {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 18px;
-      }
-      nav {
-        margin-left: 0;
-        margin-top: 10px;
-      }
-      .search-bar {
-        margin-left: 0;
-        width: 100%;
-      }
-    }
-    @media (max-width: 700px) {
-      .products-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
-      }
-      .product-card {
-        padding: 10px;
-        max-width: unset;
-      }
-      .banner-message {
-        font-size: 0.98em;
-      }
-    }
-    @media (max-width: 420px) {
-      .products-grid {
-        grid-template-columns: 1fr;
-      }
-    }
+    .modal-open {overflow: hidden;}
   </style>
 </head>
 <body>
-  <!-- Banner Offers with Image -->
+  <!-- Banner with big image -->
   <section class="banner">
     <img class="banner-img" src="https://img.freepik.com/free-vector/shopping-banner-concept-with-t-shirts_1308-127691.jpg" alt="Banner Highlight">
     <span class="banner-message">Buy 3 OverSized T-Shirts at ₹1199/- | Buy 2 at ₹999/- | Cash on Delivery Available</span>
   </section>
-
-  <!-- Header with logo, nav, search -->
   <header>
     <div class="header-inner">
       <div class="logo-box">
@@ -242,79 +94,104 @@
       <nav>
         <a href="#">Home</a>
         <a href="#">Collections</a>
-        <a href="#">Best Seller</a>
+        <a href="#">Best Sellers</a>
         <a href="#">Contact</a>
       </nav>
       <form class="search-bar" id="searchForm" autocomplete="off" onsubmit="return false;">
         <input type="text" id="searchInput" class="search-input" placeholder="Search by product..." />
         <button class="search-btn" id="searchBtn">Search</button>
       </form>
+      <span class="header-actions">
+        <!-- Cart Icon -->
+        <div class="account-menu-wrap" id="cartMenu">
+          <button class="icon-btn" id="cartBtn" aria-label="Cart"><span class="header-icon">&#128722;</span>
+            <span id="cartCount" style="position:absolute;top:2px;right:3px; background:#d72631;color:#fff;padding:0 6px;border-radius:9px; font-size:0.9em;display:none;"></span>
+          </button>
+          <div class="popup-box" id="cartPopup">
+            <div id="cartPopupContent">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+        </div>
+        <!-- Account Icon and Mini Popup -->
+        <div class="account-menu-wrap" id="accountWrap">
+          <button class="icon-btn" id="accountBtn" aria-label="Account" tabindex="0">
+            <span class="header-icon">&#128100;</span>
+          </button>
+          <div class="popup-box" id="accountPopup">
+            <div id="accountPopupContent">
+              <h3>Welcome!</h3>
+              <button type="button" onclick="showAccountForm('login')">Login</button>
+              <button type="button" onclick="showAccountForm('signup')">Signup</button>
+            </div>
+          </div>
+        </div>
+      </span>
     </div>
   </header>
 
-  <!-- Products Grid -->
   <main>
     <h2 style="text-align:center;">Best Sellers</h2>
     <div class="products-grid" id="productsGrid">
-      <div class="product-card" data-name="Porsche Printed T-Shirt">
+      <div class="product-card" data-id="1" data-name="Porsche Printed T-Shirt" data-price="449">
         <img src="https://chriscross.in/cdn/shop/files/ChrisCrossBlackCottonT-Shirt.jpg?v=1740994605" alt="Men's Porsche Printed T-Shirt">
         <h3>Porsche Printed T-Shirt</h3>
         <p class="price"><span class="old">₹899</span> <span class="new">₹449</span></p>
-        <button>Add to Cart</button>
+        <button class="add-cart-btn">Add to Cart</button>
       </div>
-      <div class="product-card" data-name="Space Invader Oversized Tee">
+      <div class="product-card" data-id="2" data-name="Space Invader Oversized Tee" data-price="499">
         <img src="https://chriscross.in/cdn/shop/files/ChrisCrossNavyBlueCottonT-Shirt.jpg?v=1740994598" alt="Space Invader Oversized Tee">
         <h3>Space Invader Oversized Tee</h3>
         <p class="price"><span class="old">₹999</span> <span class="new">₹499</span></p>
-        <button>Add to Cart</button>
+        <button class="add-cart-btn">Add to Cart</button>
       </div>
-      <div class="product-card" data-name="Retro Sunset T-Shirt">
+      <div class="product-card" data-id="3" data-name="Retro Sunset T-Shirt" data-price="449">
         <img src="https://teeshoppen.com/cdn/shop/files/000101_newroyal_35_front.jpg?v=1745175809&width=1536" alt="Retro Sunset T-Shirt">
         <h3>Retro Sunset T-Shirt</h3>
         <p class="price"><span class="old">₹899</span> <span class="new">₹449</span></p>
-        <button>Add to Cart</button>
+        <button class="add-cart-btn">Add to Cart</button>
       </div>
-      <div class="product-card" data-name="Tokyo Nights Oversized">
+      <div class="product-card" data-id="4" data-name="Tokyo Nights Oversized" data-price="549">
         <img src="https://tirupurbrands.com/wp-content/uploads/2021/06/T-Shirt-Wholesaler-Tirupur_PRNBIO-min.jpg" alt="Tokyo Nights Oversized">
         <h3>Tokyo Nights Oversized</h3>
         <p class="price"><span class="old">₹1,099</span> <span class="new">₹549</span></p>
-        <button>Add to Cart</button>
+        <button class="add-cart-btn">Add to Cart</button>
       </div>
-      <div class="product-card" data-name="Cyber City Tee">
+      <div class="product-card" data-id="5" data-name="Cyber City Tee" data-price="499">
         <img src="https://chriscross.in/cdn/shop/files/ChrisCrossBlackMelangeCottonT-Shirt.jpg?v=1740994604" alt="Cyber City Tee">
         <h3>Cyber City Tee</h3>
         <p class="price"><span class="old">₹999</span> <span class="new">₹499</span></p>
-        <button>Add to Cart</button>
+        <button class="add-cart-btn">Add to Cart</button>
       </div>
-      <div class="product-card" data-name="Minimalist White">
+      <div class="product-card" data-id="6" data-name="Minimalist White" data-price="449">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd2sHsRNFFHmJsE055DuthhHkllgxyJS7OyA&s" alt="Minimalist White">
         <h3>Minimalist White</h3>
         <p class="price"><span class="old">₹899</span> <span class="new">₹449</span></p>
-        <button>Add to Cart</button>
+        <button class="add-cart-btn">Add to Cart</button>
       </div>
-      <div class="product-card" data-name="Bolt Black Tee">
+      <div class="product-card" data-id="7" data-name="Bolt Black Tee" data-price="474">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFDi7YWCcEWmboVKEwgbW9Q8ajqJEf7c8k2w&s" alt="Bolt Black Tee">
         <h3>Bolt Black Tee</h3>
         <p class="price"><span class="old">₹949</span> <span class="new">₹474</span></p>
-        <button>Add to Cart</button>
+        <button class="add-cart-btn">Add to Cart</button>
       </div>
-      <div class="product-card" data-name="Classic Navy Oversize">
+      <div class="product-card" data-id="8" data-name="Classic Navy Oversize" data-price="499">
         <img src="https://www.shopghumakkad.com/cdn/shop/files/lavender-t-shirt-for-men-ghumakkad-1.jpg?v=1741450079&width=1000" alt="Classic Navy Oversize">
         <h3>Classic Navy Oversize</h3>
         <p class="price"><span class="old">₹999</span> <span class="new">₹499</span></p>
-        <button>Add to Cart</button>
+        <button class="add-cart-btn">Add to Cart</button>
       </div>
-      <div class="product-card" data-name="Gradient Style Tee">
+      <div class="product-card" data-id="9" data-name="Gradient Style Tee" data-price="524">
         <img src="https://www.dudeme.in/cdn/shop/files/OliveGreenUnisexPlainPoloT-Shirt.jpg?v=1686223800&width=600" alt="Gradient Style Tee">
         <h3>Gradient Style Tee</h3>
         <p class="price"><span class="old">₹1,049</span> <span class="new">₹524</span></p>
-        <button>Add to Cart</button>
+        <button class="add-cart-btn">Add to Cart</button>
       </div>
-      <div class="product-card" data-name="Desert Graphic Oversized">
+      <div class="product-card" data-id="10" data-name="Desert Graphic Oversized" data-price="549">
         <img src="https://www.deshidukan.in/cdn/shop/files/Plain_NB_800x800_crop_center@2x.jpg?v=1718178376" alt="Desert Graphic Oversized">
         <h3>Desert Graphic Oversized</h3>
         <p class="price"><span class="old">₹1,099</span> <span class="new">₹549</span></p>
-        <button>Add to Cart</button>
+        <button class="add-cart-btn">Add to Cart</button>
       </div>
     </div>
     <div class="no-results" id="noResults" style="display:none;">No products found!</div>
@@ -323,8 +200,33 @@
     <p>Price-match guarantee | Hassle-free exchange | 5.0 Google Reviews</p>
     <p>&copy; 2025 ShopTee</p>
   </footer>
+
+  <!-- Modal for order -->
+  <div class="modal" id="orderModal">
+    <div class="modal-content" id="orderModalContent">
+      <button class="close-modal" onclick="closeOrderModal()" title="Close">&times;</button>
+      <h3>Enter Details</h3>
+      <form id="orderForm" class="account-form">
+        <label>Name</label>
+        <input type="text" id="orderName" required>
+        <label>Mobile Number</label>
+        <input type="tel" id="orderMobile" inputmode="numeric" pattern="[0-9]{10,}" required>
+        <label>Address</label>
+        <input type="text" id="orderAddress" required>
+        <label>Pincode</label>
+        <input type="text" id="orderPin" inputmode="numeric" pattern="[0-9]{5,8}" required>
+        <label>Other Details</label>
+        <input type="text" id="orderOther" placeholder="(optional)">
+        <div class="modal-actions">
+          <button type="button" onclick="closeOrderModal()">Cancel</button>
+          <button type="submit" id="finalPlaceOrderBtn">Place Order</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
-    // Live search functionality
+    // --- Product Search and Cart Init ---
     const searchInput = document.getElementById('searchInput');
     const searchBtn = document.getElementById('searchBtn');
     const productsGrid = document.getElementById('productsGrid');
@@ -346,12 +248,239 @@
       });
       noResults.style.display = found === 0 ? '' : 'none';
     }
-    // Search via button or enter
     searchBtn.addEventListener('click', searchProducts);
     searchInput.addEventListener('keyup', function(e) {
       if(e.key === 'Enter') searchProducts(e);
       else searchProducts();
     });
+
+    // --- Cart Functionality ---
+    const cartBtn = document.getElementById('cartBtn');
+    const cartMenu = document.getElementById('cartMenu');
+    const cartPopup = document.getElementById('cartPopup');
+    const cartPopupContent = document.getElementById('cartPopupContent');
+    const cartCount = document.getElementById('cartCount');
+    let cart = [];
+
+    function updateCartCount() {
+      let total = cart.reduce((a, obj) => a + obj.qty, 0);
+      cartCount.textContent = total;
+      cartCount.style.display = total ? 'inline-block' : 'none';
+    }
+    function getProductInfo(card) {
+      return {
+        id: card.getAttribute('data-id'),
+        name: card.getAttribute('data-name'),
+        price: parseInt(card.getAttribute('data-price'), 10)
+      };
+    }
+    document.querySelectorAll('.add-cart-btn').forEach(btn =>
+      btn.addEventListener('click', function() {
+        const card = this.closest('.product-card');
+        const prod = getProductInfo(card);
+        let found = cart.find(item => item.id === prod.id);
+        if(found) found.qty++;
+        else cart.push({...prod, qty: 1});
+        updateCartCount();
+        renderCart();
+      })
+    );
+    function renderCart() {
+      if(!cart.length) {
+        cartPopupContent.innerHTML = `
+          <h3>Your Cart</h3>
+          <div style="text-align:center;padding:18px 0 9px;color:#444;">No items in cart!</div>
+        `;
+        return;
+      }
+      let lis = cart.map((item, idx) => `
+        <li>
+          <span class="cart-item-name">${item.name}</span>
+          <span class="cart-item-qty-controls">
+            <button class="qty-btn" onclick="changeQty(${idx},-1)" title="Decrease">-</button>
+            <span class="cart-item-qty">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${idx},1)" title="Increase">+</button>
+          </span>
+          <span style="min-width:56px;text-align:right;">₹${item.price * item.qty}
+            <button class="cart-remove-btn" onclick="removeFromCart(${idx})" title="Remove">&#10006;</button>
+          </span>
+        </li>`).join("");
+      let totalItems = cart.reduce((n,p) => n + p.qty, 0);
+      let totalCost = cart.reduce((sum,i) => sum + i.price * i.qty, 0);
+      cartPopupContent.innerHTML = `
+        <h3>Your Cart</h3>
+        <ul class="cart-list">${lis}</ul>
+        <div class="sum-row"><b>Total Items:</b> <span>${totalItems}</span></div>
+        <div class="sum-row"><b>Total:</b> <span>₹${totalCost}</span></div>
+        <button class="popup-btn" id="placeOrderBtn"${cart.length === 0 ? ' disabled':''}>Place Order</button>
+      `;
+      document.getElementById('placeOrderBtn').onclick = function(){ showOrderForm(); };
+    }
+    window.removeFromCart = function(idx) {
+      cart.splice(idx, 1);
+      updateCartCount();
+      renderCart();
+    };
+    window.changeQty = function(idx, by) {
+      cart[idx].qty += by;
+      if(cart[idx].qty < 1) {
+        cart.splice(idx, 1);
+      }
+      updateCartCount();
+      renderCart();
+    };
+    function openCartPopup() { cartPopup.classList.add('active'); renderCart();}
+    function closeCartPopup() { setTimeout(() => cartPopup.classList.remove('active'), 140);}
+    cartBtn.addEventListener('mouseenter', openCartPopup);
+    cartBtn.addEventListener('focus', openCartPopup);
+    cartMenu.addEventListener('mouseleave', closeCartPopup);
+    cartBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      if(cartPopup.classList.contains('active')){
+        cartPopup.classList.remove('active');
+      } else {
+        openCartPopup();
+      }
+    });
+    cartPopup.addEventListener('mouseenter', openCartPopup);
+    cartPopup.addEventListener('mouseleave', closeCartPopup);
+
+    // --- Modal (real centered popup) for order form ---
+    function showOrderForm() {
+      if(!cart.length) return renderCart();
+      document.getElementById('orderModal').style.display = 'block';
+      document.body.classList.add('modal-open');
+      document.getElementById('orderForm').onsubmit = function(e){
+        e.preventDefault();
+        submitOrder();
+      };
+      document.getElementById('orderName').focus();
+    }
+    function closeOrderModal() {
+      document.getElementById('orderModal').style.display = 'none';
+      document.body.classList.remove('modal-open');
+    }
+    window.closeOrderModal = closeOrderModal;
+    // Close modal on Escape key
+    document.getElementById('orderModal').addEventListener('click', function(e){
+      if(e.target === this) closeOrderModal();
+    });
+    window.addEventListener('keydown', function(e){
+      if(document.getElementById('orderModal').style.display === 'block' && e.key==='Escape'){
+        closeOrderModal();
+      }
+    });
+
+    function submitOrder() {
+      var phone = "918978112802";
+      var name = document.getElementById('orderName').value.trim();
+      var mobile = document.getElementById('orderMobile').value.trim();
+      var address = document.getElementById('orderAddress').value.trim();
+      var pincode = document.getElementById('orderPin').value.trim();
+      var other = document.getElementById('orderOther').value.trim();
+      if(!(name && mobile && address && pincode)) {
+        alert("Please fill all fields!");
+        return;
+      }
+      var itemsText = cart.map(i => `${i.qty} × ${i.name} (₹${i.price * i.qty})`).join('%0A');
+      var total = cart.reduce((sum,i) => sum + i.price * i.qty, 0);
+      var msg =
+        `Order Details:%0A` +
+        `Name: ${name}%0A` +
+        `Mobile: ${mobile}%0A` +
+        `Address: ${address}%0A` +
+        `Pincode: ${pincode}%0A` +
+        (other ? `Other: ${other}%0A` : '') +
+        `%0A--- Items --- %0A${itemsText}%0A` +
+        `Total Items: ${cart.reduce((n,p)=>n+p.qty,0)}%0ATotal Amount: ₹${total}`;
+      var waURL = `https://wa.me/${phone}?text=${msg}`;
+      window.open(waURL, '_blank');
+      closeOrderModal();
+    }
+    // --- Account logic (unchanged) ---
+    const accountBtn = document.getElementById('accountBtn');
+    const accountWrap = document.getElementById('accountWrap');
+    const accountPopup = document.getElementById('accountPopup');
+    const accountPopupContent = document.getElementById('accountPopupContent');
+    let popupTimer;
+    let loggedInUser = '';
+    function openPopup() { accountPopup.classList.add('active'); clearTimeout(popupTimer);}
+    function closePopup() { popupTimer = setTimeout(() => { accountPopup.classList.remove('active'); restoreAccountPopup(); }, 160);}
+    function restoreAccountPopup() {
+      accountPopupContent.innerHTML = `
+        <h3>${loggedInUser ? 'Hello, ' + loggedInUser + '!' : 'Welcome!'}</h3>
+        ${loggedInUser ? `<button onclick="logoutAccount()">Logout</button>` :
+        `<button onclick="showAccountForm('login')">Login</button>
+         <button onclick="showAccountForm('signup')">Signup</button>`}
+      `;
+    }
+    accountBtn.addEventListener('mouseenter', openPopup);
+    accountBtn.addEventListener('focus', openPopup);
+    accountWrap.addEventListener('mouseleave', closePopup);
+    accountBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      if(accountPopup.classList.contains('active')){
+        accountPopup.classList.remove('active'); restoreAccountPopup();
+      } else { openPopup();}
+    });
+    accountPopup.addEventListener('mouseenter', openPopup);
+    accountPopup.addEventListener('mouseleave', closePopup);
+    window.showAccountForm = function(type){
+      let formHTML = '';
+      if(type === 'login'){
+        formHTML = `
+        <h3>Login</h3>
+        <form class="account-form" id="loginForm" onsubmit="return false;">
+          <label>Username</label>
+          <input type="text" id="loginUser" autocomplete="username" required>
+          <label>Password</label>
+          <input type="password" id="loginPass" autocomplete="current-password" required>
+          <div class="form-actions">
+            <button type="button" onclick="restoreAccountPopup()">Cancel</button>
+            <button type="submit">Login</button>
+          </div>
+        </form>
+        `;
+      } else {
+        formHTML = `
+        <h3>Signup</h3>
+        <form class="account-form" id="signupForm" onsubmit="return false;">
+          <label>Username</label>
+          <input type="text" id="signupUser" autocomplete="username" required>
+          <label>Email</label>
+          <input type="email" id="signupEmail" autocomplete="email" required>
+          <label>Password</label>
+          <input type="password" id="signupPass" autocomplete="new-password" required>
+          <div class="form-actions">
+            <button type="button" onclick="restoreAccountPopup()">Cancel</button>
+            <button type="submit">Signup</button>
+          </div>
+        </form>
+        `;
+      }
+      accountPopupContent.innerHTML = `<div class="account-form-wrap">${formHTML}</div>`;
+      document.getElementById(type + 'Form').onsubmit = function(){
+        if(type === 'login'){
+          const uname = document.getElementById('loginUser').value.trim();
+          const pass = document.getElementById('loginPass').value;
+          if(uname && pass){
+            loggedInUser = uname; restoreAccountPopup();
+          }
+        } else {
+          const uname = document.getElementById('signupUser').value.trim();
+          const email = document.getElementById('signupEmail').value.trim();
+          const pass = document.getElementById('signupPass').value;
+          if(uname && email && pass){
+            loggedInUser = uname; restoreAccountPopup();
+          }
+        }
+      }
+    }
+    window.logoutAccount = function(){
+      loggedInUser = '';
+      restoreAccountPopup();
+    }
+    updateCartCount();
   </script>
 </body>
 </html>
